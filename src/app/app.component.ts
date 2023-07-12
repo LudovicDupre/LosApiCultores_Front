@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
 
   title = 'losapicultores_contacts';
   //user: User | undefined;
-  auth: boolean = false;
+  auth: boolean = true;
 
   constructor(private router: Router) {
 
