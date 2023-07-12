@@ -8,6 +8,16 @@ import { environment } from 'src/environment/environment';
 })
 export class ApiService {
 
+
+  getContactsByCategory(id: any) {
+    return this.http.get<Contact[]>(environment.host+"/contacts/category/"+id)
+  }
+
+
+  getCategories() {
+   return this.http.get<any>(environment.host+"/category");
+  }
+
   constructor(private http: HttpClient) { }
 
 
