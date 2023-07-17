@@ -34,4 +34,11 @@ export class ApiService {
     formData.append("password", password);
     return this.http.post<any>("http://localhost:8080/login", formData)
   }
+
+  connectUser(username: string, password: string) {
+    const formData = new FormData;
+    formData.append("username", username);
+    formData.append("password", password);
+    return this.http.post<any>("http://localhost:8080/login", formData)
+  }
 }
