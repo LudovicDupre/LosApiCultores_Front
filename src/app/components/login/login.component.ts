@@ -10,7 +10,7 @@ import { ApiService } from 'src/app/services/api.service';
 export class LoginComponent implements OnInit {
 
   myForm: FormGroup;
-  error: string |undefined;
+  error: any |undefined;
 
   constructor(private formBuilder: FormBuilder, private apiService : ApiService) {
     this.myForm = this.formBuilder.group({
@@ -21,10 +21,14 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onLogin() {
-    if(this.myForm.valid) {
-      this.apiService.connectUser(this.myForm.value.username, this.myForm.value.password)
-      console.log(this.myForm.value)
+  onLogin(myForm: FormGroup) {
+    if(myForm.valid) {
+      this.apiService.connectUser(myForm.value.username, myForm.value.password).subscribe({
+        next: (data) => {let test = data;console.log(test)},
+        error: (err) => this.error = err.message,
+        complete: () => this.error = null
+      })
+      
     } else {
       this.error = 'Veuillez entrer tous les champs requis.'
     }
