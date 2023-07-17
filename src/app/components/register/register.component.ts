@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 
 
@@ -11,24 +11,47 @@ import { ApiService } from 'src/app/services/api.service';
 export class RegisterComponent implements OnInit {
   
   myForm: FormGroup ;
-  error : string | undefined;
+  error :  any;
 
   ngOnInit(): void {
   }
 
-  onLogin() {
+  onRegister() {
     if(this.myForm.valid) {
-      this.apiService.saveUser(this.myForm.value.username, this.myForm.value.password)
+      this.apiService.saveUser(this.myForm.value).subscribe({
+        next: (data) => console.log(data),
+        error : (err)=> (this.error= err.message),
+        complete: () => (this.error=null)
+      })
       console.log(this.myForm.value)
     } else {
-      this.error = 'Veuillez entrer tous les champs requis.'
+      this.error = 'Tous les champs sont requis.'
     }
   }
   constructor( private formBuilder: FormBuilder , private apiService: ApiService) {
     this.myForm = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      confirmPassword : ['', Validators.required]
+    }, {
+      validators : this.controlValuesAreEqual('password', 'confirmPassword')
     })
+  }
+
+  private controlValuesAreEqual(controlNameA: string, controlNameB: string): ValidatorFn{
+    return (control: AbstractControl): ValidationErrors | null =>{
+      const formGroup = control as FormGroup
+      const valueOfControlA = formGroup.get(controlNameA)?.value
+      const valueOfControlB = formGroup.get(controlNameB)?.value
+
+      if (valueOfControlA === valueOfControlB) {
+       
+        return null
+      } else {
+        return { valuesDoNotMatch: true}
+      }
+
+    }
   }
 
 }
