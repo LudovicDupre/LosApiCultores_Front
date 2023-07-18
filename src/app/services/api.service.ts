@@ -1,12 +1,17 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Contact } from '../models/contact.model';
 import { environment } from 'src/environment/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
+
+  private host = "http://localhost:8080";
+
+
   getContactsByNameContains(keyword: string) {
     return this.http.get<Contact[]>(environment.host + "/contacts/search/" + keyword)
   }
@@ -38,10 +43,5 @@ export class ApiService {
     return this.http.post<any>("http://localhost:8080/login", formData)
   }
 
-  connectUser(username: string, password: string) {
-    const formData = new FormData;
-    formData.append("username", username);
-    formData.append("password", password);
-    return this.http.post("http://localhost:8080/login", formData)
-  }
+ 
 }
