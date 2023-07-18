@@ -12,10 +12,10 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 })
 export class ContactComponent implements OnInit {
 
-      // TODO : protéger les routes par catégory
-      // div categories et search faut pas qu'il s'affichent si non authetifié !
-      // composant home à supprimer 
-      // logout à terminer 
+  // TODO : protéger les routes par catégory
+  // div categories et search faut pas qu'il s'affichent si non authetifié !
+  // composant home à supprimer 
+  // logout à terminer 
 
   contacts: Contact[] | undefined;
   categories: Category[] | undefined;
@@ -108,8 +108,8 @@ export class ContactComponent implements OnInit {
 
 
   onDelete(contact: Contact) {
-    this.service.deleteContact(contact).subscribe({
-      next: (data)=> { 
+    if (confirm('êtes vous sûr de vouloir supprimer ce contact ? ')) this.service.deleteContact(contact).subscribe({
+      next: (data) => {
         console.log(data)
       },
       error: (err) => this.error = err.message,
