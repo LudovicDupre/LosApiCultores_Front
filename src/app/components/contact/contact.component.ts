@@ -85,5 +85,15 @@ export class ContactComponent implements OnInit {
 
   }
 
+  onDelete(contact: Contact) {
+    this.service.deleteContact(contact).subscribe({
+      next: (data)=> { 
+        console.log(data)
+      },
+      error: (err) => this.error = err.message,
+      complete: () => this.error = null
+    })
+  }
+
 
 }

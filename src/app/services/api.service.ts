@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Contact } from '../models/contact.model';
 import { environment } from 'src/environment/environment';
@@ -35,6 +35,13 @@ export class ApiService {
   saveUser(user: User) {
   return this.http.post<User>(environment.host+"/users", user)
   }
+
+  deleteContact(contact: Contact) {
+    console.log("request :")
+    console.log(environment.host+"/contacts/" + contact.id);
+    return this.http.delete<Contact>(environment.host+"/contacts/" + contact.id);
+  }
+
 
   connectUser(username: string, password: string) {
     const formData = new FormData;
