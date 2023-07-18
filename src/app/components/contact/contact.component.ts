@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Category } from 'src/app/models/category.model';
 import { Contact } from 'src/app/models/contact.model';
 import { ApiService } from 'src/app/services/api.service';
@@ -25,7 +26,7 @@ export class ContactComponent implements OnInit {
 
 
 
-  constructor(private service: ApiService, private authService: AuthServiceService) {
+  constructor(private service: ApiService, private authService: AuthServiceService,private router : Router) {
     this.searchForm = new FormGroup({
       keyword: new FormControl()
     })
@@ -113,7 +114,7 @@ export class ContactComponent implements OnInit {
         console.log(data)
       },
       error: (err) => this.error = err.message,
-      complete: () => this.error = null
+      complete: () =>  this.getAllContacts()
     })
   }
 
