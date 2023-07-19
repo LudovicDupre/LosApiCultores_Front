@@ -118,6 +118,10 @@ export class ContactComponent implements OnInit {
     })
   }
 
+  onUpdate(contact: Contact) {
 
+    this.router.navigate(['/edit-contact'], {state: {contact}});
+    
+    }
 
 }

@@ -1,0 +1,55 @@
+<div>
+    <ng-container>
+        <div>
+            <h1>Modifier le contact</h1>
+        </div>
+        <form (ngSubmit)="onEditContact()">
+            <div>
+                <label>Nom :</label>
+                <input [(ngModel)]="contact.lastName" required
+                name="lastName"
+                type="text"
+                class="form-control">
+            </div>
+            <div>
+                <label>Prénom :</label>
+                <input [(ngModel)]="contact.firstName" required
+                name="firstName"
+                type="text"
+                class="form-control">
+            </div>
+            <div>
+                <label>Mail :</label>
+                <input [(ngModel)]="contact.email" required
+                name="email"
+                type="text"
+                class="form-control">
+            </div>
+            <div>
+                <label>Tél :</label>
+                <input [(ngModel)]="contact.phone" required
+                name="phone"
+                type="text"
+                class="form-control">
+            </div>
+            <div>
+                <label>Adresse :</label>
+                <input [(ngModel)]="contact.address" required
+                name="address"
+                type="text"
+                class="form-control">
+            </div>
+            <div>
+
+                <label class="control-label" for="category">Catégorie :</label>
+
+                <select class="form-select form-control" *ngIf="listCategories">
+
+                    <option *ngFor="let category of listCategories" [ngValue]="category"  >{{category.name}}</option>
+
+                  </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+    </ng-container>
+</div>

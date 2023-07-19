@@ -5,6 +5,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { LoginComponent } from './components/login/login.component';
 import { Category } from './models/category.model';
+import { EditContactComponent } from './edit-contact/edit-contact.component';
 
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent},
+  { path: 'edit-contact', component: EditContactComponent}
 
 ]
 

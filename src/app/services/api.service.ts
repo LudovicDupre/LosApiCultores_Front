@@ -73,4 +73,7 @@ export class ApiService implements HttpInterceptor {
     return this.http.post("http://localhost:8080/login", formData)
   }
 
+  postContact(contact: Contact) {
+   return this.http.post<Contact>(environment.host+ '/contacts', contact)
+  }
 }
