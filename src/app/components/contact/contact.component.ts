@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from 'src/app/models/category.model';
 import { Contact } from 'src/app/models/contact.model';
 import { ApiService } from 'src/app/services/api.service';
@@ -26,17 +26,23 @@ export class ContactComponent implements OnInit {
 
 
 
-  constructor(private service: ApiService, public authService: AuthServiceService, private router: Router) {
+  constructor(private service: ApiService, public authService: AuthServiceService, private router: Router, private route:ActivatedRoute) {
     this.searchForm = new FormGroup({
       keyword: new FormControl()
     })
-
+    route.params.subscribe(val => {
+      // put the code from `ngOnInit` here
+      this.getAllContacts();
+    this.getCategories();
+    this.searchForm.reset();
+    });
   }
 
   ngOnInit(): void {
     this.getAllContacts();
     this.getCategories();
     this.searchForm.reset();
+  
   }
 
   searchByCategory(event: any) {

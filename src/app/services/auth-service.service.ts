@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import jwt_decode from 'jwt-decode';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthServiceService {
   private roles: Array<string> = [];
   public username: string = "";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router : Router) { }
 
   saveToken(jwtToken: string) {
     console.log('test saveToken');
@@ -48,6 +49,7 @@ export class AuthServiceService {
 
   logOut(){
     localStorage.removeItem('token');
+    this.router.navigateByUrl('');
   }
 
 

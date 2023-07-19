@@ -5,13 +5,6 @@
       <li class="nav-item"><a routerLink="/contacts" class="nav-link">Contacts</a></li>
 
       <li class="nav-item"><a routerLink="/addContact" class="nav-link">Ajouter un contact</a></li>
-      <li class="nav-item ms-5">
-        <a routerLink="/login" class="nav-link text-info" >Login</a>
-        <!--(click)=" onConnexion()"-->
-      </li>
-      <li class="nav-item"><a routerLink="/register" class="nav-link text-primary">Register</a></li>
-
-      <!-- (click)=" onDeconnexion()"-->
     </ul>
     <ul class="navbar-nav offset-md-2 offset-lg-4 offset-xl-6">
       <ng-container *ngIf="this.authService.getToken() == null, else elseBlock">
