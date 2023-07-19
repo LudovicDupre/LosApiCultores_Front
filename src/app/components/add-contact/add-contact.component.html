@@ -1,6 +1,6 @@
 <div class="container ">
     <div class="col-md-3 m-auto">
-        <form [formGroup]="myForm" (ngSubmit)="getCategoryById(myForm)">
+        <form [formGroup]="myForm" (ngSubmit)="addContact(myForm)">
            <!----<div *ngIf = "myForm.value.id"class="form-group">
                 <label class="control-label">Id : </label>
                 <input type="text" formControlName="id" class="form-control">
@@ -27,12 +27,13 @@
             </div>
             <div class="form-group mt-2">
                 <label class="control-label" for="category">Catégorie :</label>
-                <select class="form-select form-control" *ngIf="listCategories"  formControlName="categoryId">
-                    <option *ngFor="let category of listCategories" [ngValue]="category.id"  >{{category.name}}</option>
+                <select class="form-select form-control" *ngIf="listCategories"  formControlName="category">
+                    <option *ngFor="let category of listCategories" [ngValue]="category"  >{{category.name}}</option>
                   </select>
                 </div>
             <button type="submit" class="btn btn-success mt-2">Valider</button>       
-        </form>        
+        </form>
+        <div class="text-danger"> {{error}}</div>        
     </div>    
 </div>
 

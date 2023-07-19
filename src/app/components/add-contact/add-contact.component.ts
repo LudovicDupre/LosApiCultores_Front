@@ -11,7 +11,7 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./add-contact.component.css']
 })
 export class AddContactComponent implements OnInit {
-  error: null | undefined;
+  error: any;
   contact!: Contact;
   myForm!: FormGroup;
   listCategories : Category[] | undefined;
@@ -24,8 +24,8 @@ export class AddContactComponent implements OnInit {
     lastName : ['', Validators.required],
     email : ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
     phone : ['', [Validators.required, Validators.maxLength(10)]],
-    address : ['', Validators.required],
-    categoryId : [0, Validators.required]
+    address : ['',[Validators.required,Validators.minLength(25)]],
+    category : ['', Validators.required]
   })}
   ngOnInit(): void {
     this.apiService.getCategories().subscribe({
@@ -36,11 +36,13 @@ export class AddContactComponent implements OnInit {
   }
 addContact(myForm : FormGroup){
   if(myForm.valid){
-    this.apiService.postContact(myForm.value).subscribe({
-      next: (data) => (console.log(data)),
-      error: (err) => (this.error = err.message),
-      complete: () => (this.error = null),
-    });
+    this.category = new Category(myForm.value.category.name, myForm.value.category.id)
+    this.contact = new Contact(myForm.value.firstName,myForm.value.lastName,myForm.value.email,myForm.value.phone,myForm.value.address, this.category);
+    this.apiService.postContact(this.contact).subscribe((res)=>console.log(res));
+    this.router.navigateByUrl('contacts');
+  }
+  else{
+    this.error = "Vous n'avez pas saisi correctement les champs";
   }
 }
 getCategoryById(myForm : FormGroup) : any{
@@ -50,4 +52,5 @@ getCategoryById(myForm : FormGroup) : any{
     complete: () => (this.error = null),
   });
 }
+
 }
