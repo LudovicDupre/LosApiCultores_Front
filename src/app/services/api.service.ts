@@ -1,5 +1,5 @@
 
-import { HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Injectable } from '@angular/core';
 import { Contact } from '../models/contact.model';
@@ -15,49 +15,32 @@ import { AuthServiceService } from './auth-service.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService implements HttpInterceptor {
+
+export class ApiService {
 
   private host = "http://localhost:8080";
 
   constructor(private http: HttpClient, private authService: AuthServiceService) { }
 
-
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Récupération du token d'authentification (à remplacer par votre code)
-    const token = this.authService.getToken();
-
-    // Ajout du token dans les entêtes de la requête
-    const authReq = request.clone({
-      setHeaders: {
-        Authorization: `${token}`
-      }
-    });
-
-    return next.handle(authReq);
-  }
-
   getContactsByNameContains(keyword: string) {
-    return this.http.get<Contact[]>(environment.host + "/contacts/search/" + keyword)
+    return this.http.get<Contact[]>(environment.host + "/contacts/search/" + keyword, { headers: new HttpHeaders({ 'Authorization': this.authService.getToken() }) })
   }
 
 
   getContactsByCategory(id: any) {
-    return this.http.get<Contact[]>(environment.host + "/contacts/category/" + id)
+    return this.http.get<Contact[]>(environment.host + "/contacts/category/" + id, { headers: new HttpHeaders({ 'Authorization': this.authService.getToken() }) })
   }
-
 
   getCategories() {
-    return this.http.get<any>(environment.host + "/category");
+    return this.http.get<any>(environment.host + "/category", { headers: new HttpHeaders({ 'Authorization': this.authService.getToken() }) });
   }
-
-
-
 
   // afficher toutes les contacts
   getContacts() {
-    return this.http.get<Contact[]>(environment.host + "/contacts");
+    let headers = new HttpHeaders({ 'Authorization': this.authService.getToken() })
+    console.log(headers)
+    return this.http.get<Contact[]>(environment.host + "/contacts", { headers });
   }
-
 
   saveUser(user: User) {
     return this.http.post<User>(environment.host + "/users", user)
@@ -66,15 +49,7 @@ export class ApiService implements HttpInterceptor {
   deleteContact(contact: Contact) {
     console.log("request :")
     console.log(environment.host + "/contacts/" + contact.id);
-    return this.http.delete<Contact>(environment.host + "/contacts/" + contact.id);
-  }
-
-
-  connectUser(username: string, password: string) {
-    const formData = new FormData;
-    formData.append("username", username);
-    formData.append("password", password);
-    return this.http.post("http://localhost:8080/login", formData)
+    return this.http.delete<Contact>(environment.host + "/contacts/" + contact.id, { headers: new HttpHeaders({ 'Authorization': this.authService.getToken() }) });
   }
 
   postContact(contact : Contact){

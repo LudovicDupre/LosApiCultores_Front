@@ -26,7 +26,7 @@ export class ContactComponent implements OnInit {
 
 
 
-  constructor(private service: ApiService, public authService: AuthServiceService,private router : Router) {
+  constructor(private service: ApiService, public authService: AuthServiceService, private router: Router) {
     this.searchForm = new FormGroup({
       keyword: new FormControl()
     })
@@ -50,11 +50,15 @@ export class ContactComponent implements OnInit {
   }
 
   getCategories() {
-    this.service.getCategories().subscribe({
-      next: (data) => this.categories = data,
-      error: (err) => this.error = err.message,
-      complete: () => this.error = null
-    })
+    if (this.authService.getToken() == null) this.categories = [];
+    else {
+      this.service.getCategories().subscribe({
+        next: (data) => this.categories = data,
+        error: (err) => this.error = err.message,
+        complete: () => this.error = null
+      })
+    }
+
   }
 
 
@@ -114,7 +118,7 @@ export class ContactComponent implements OnInit {
         console.log(data)
       },
       error: (err) => this.error = err.message,
-      complete: () =>  this.getAllContacts()
+      complete: () => this.getAllContacts()
     })
   }
 
