@@ -7,9 +7,10 @@ import { ContactComponent } from './components/contact/contact.component';
 import { RegisterComponent } from './components/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {  HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { AuthServiceService } from './services/auth-service.service';
+import { ApiService } from './services/api.service';
 
 @NgModule({
   declarations: [
@@ -26,11 +27,7 @@ import { AuthServiceService } from './services/auth-service.service';
     HttpClientModule,
 
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: AuthServiceService,
-    multi: true
-  }],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,4 @@
-import { HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import jwt_decode from 'jwt-decode';
@@ -6,7 +6,7 @@ import jwt_decode from 'jwt-decode';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthServiceService implements HttpInterceptor {
+export class AuthServiceService {
   private host = "http://localhost:8080";
   private jwtToken: string = "";
   private jwtDecoded: string = "";
@@ -14,20 +14,6 @@ export class AuthServiceService implements HttpInterceptor {
   public username: string = "";
 
   constructor(private http: HttpClient) { }
-
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Récupération du token d'authentification (à remplacer par votre code)
-    const token = this.getToken();
-
-    // Ajout du token dans les entêtes de la requête
-    const authReq = request.clone({
-      setHeaders: {
-        Authorization: `${token}`
-      }
-    });
-
-    return next.handle(authReq);
-  }
 
   saveToken(jwtToken: string) {
     console.log('test saveToken');
@@ -56,6 +42,7 @@ export class AuthServiceService implements HttpInterceptor {
     const formData = new FormData;
     formData.append("username", username);
     formData.append("password", password);
+    console.log(this.host + "/login")
     return this.http.post<any>(this.host + "/login", formData, { observe: 'response' })
   }
 

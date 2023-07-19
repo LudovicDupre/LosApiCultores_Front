@@ -25,14 +25,18 @@ export class LoginComponent implements OnInit {
 
   onLogin(myForm: FormGroup) {
     if (myForm.valid) {
+      console.log(myForm.value);
       this.authService.connectUser(myForm.value.username, myForm.value.password).subscribe({
         next: (data) => {
+          console.log(data)
           let jwtToken = data.headers.get('Authorization');
           console.log(jwtToken);
           this.authService.saveToken(jwtToken);
           this.router.navigateByUrl('contacts')
         },
-        error: (err) => this.mode = 1,
+        error: (err) =>{ 
+          console.log(err)
+          this.mode = 1},
         complete: () => this.error = null
       }
       )
