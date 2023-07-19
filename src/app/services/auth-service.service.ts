@@ -11,6 +11,7 @@ export class AuthServiceService implements HttpInterceptor {
   private jwtToken: string = "";
   private jwtDecoded: string = "";
   private roles: Array<string> = [];
+  public username: string = "";
 
   constructor(private http: HttpClient) { }
 
@@ -33,10 +34,10 @@ export class AuthServiceService implements HttpInterceptor {
     this.jwtToken = JSON.stringify(jwtToken);
     localStorage.setItem('token', jwtToken);
     this.jwtDecoded = jwt_decode(this.jwtToken);
-    let username = Object.entries(this.jwtDecoded)[0][1]
+    this.username = Object.entries(this.jwtDecoded)[0][1]
     this.roles.push(Object.entries(this.jwtDecoded)[1][1]);
     console.log(this.roles);
-    console.log(username);
+    console.log(this.username);
     let admin = this.isAdmin(this.roles);
     console.log(admin)
   }

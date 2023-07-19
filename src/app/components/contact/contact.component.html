@@ -6,7 +6,7 @@
                 Bienvenue dans votre application Carnet de contacts </h2>
             <div class="row justify-content-center">
 
-                <ng-container *ngIf="categories">
+                <ng-container *ngIf="categories && this.authService.getToken() != null">
 
                     <div class="col-md-10 m-3 p-2 border shadow rounded bg-dark ">
                         <h4 class="my-4">Categories</h4>
@@ -23,7 +23,7 @@
             </div>
 
             <!--form searchByName debut -->
-            <div>
+            <div *ngIf="this.authService.getToken() != null">
                 <form [formGroup]="searchForm" (ngSubmit)="onSearch(searchForm)" class="ms-4">
                     <label class="fs-4 mb-5 text-dark me-2"> Search </label> <input type="text"
                         placeholder=" Taper le nom ..." class="form-control text-dark w-50 d-inline mt-1 mb-4"

@@ -26,7 +26,7 @@ export class ContactComponent implements OnInit {
 
 
 
-  constructor(private service: ApiService, private authService: AuthServiceService,private router : Router) {
+  constructor(private service: ApiService, public authService: AuthServiceService,private router : Router) {
     this.searchForm = new FormGroup({
       keyword: new FormControl()
     })

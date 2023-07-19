@@ -45,12 +45,5 @@ addContact(myForm : FormGroup){
     this.error = "Vous n'avez pas saisi correctement les champs";
   }
 }
-getCategoryById(myForm : FormGroup) : any{
- this.apiService.getCategoryById(myForm.value.categoryId).subscribe({
-    next: (data) => {(console.log(data));},
-    error: (err) => (this.error = err.message),
-    complete: () => (this.error = null),
-  });
-}
 
 }
