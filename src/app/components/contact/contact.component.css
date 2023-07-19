@@ -1,0 +1,5 @@
+.divContainer {
+    background-image: url("/assets/img/1302546.jpg");
+    background-size: cover;
+    backdrop-filter: blur(10px);
+}

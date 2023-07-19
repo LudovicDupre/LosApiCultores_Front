@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthServiceService } from './services/auth-service.service';
 
 @Component({
   selector: 'app-root',
@@ -12,13 +13,9 @@ export class AppComponent implements OnInit {
   //user: User | undefined;
   auth: boolean = true;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,public authService: AuthServiceService) {
 
   }
 
-  ngOnInit(): void {
-    if (!this.auth) {
-      this.router.navigateByUrl('home')
-    }
-  }
+  ngOnInit(): void {}
 }
