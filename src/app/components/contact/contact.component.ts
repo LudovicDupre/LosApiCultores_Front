@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Category } from 'src/app/models/category.model';
 import { Contact } from 'src/app/models/contact.model';
 import { ApiService } from 'src/app/services/api.service';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 @Component({
   selector: 'app-contact',
@@ -11,14 +13,20 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class ContactComponent implements OnInit {
 
+  // TODO : protéger les routes par catégory
+  // div categories et search faut pas qu'il s'affichent si non authetifié !
+  // composant home à supprimer 
+  // logout à terminer 
+
   contacts: Contact[] | undefined;
   categories: Category[] | undefined;
   searchForm: FormGroup;
   searchError: any;
-  error:any;
+  error: any;
 
 
-  constructor(private service: ApiService) {
+
+  constructor(private service: ApiService, private authService: AuthServiceService,private router : Router) {
     this.searchForm = new FormGroup({
       keyword: new FormControl()
     })
@@ -52,17 +60,32 @@ export class ContactComponent implements OnInit {
 
 
   getAllContacts() {
-    this.service.getContacts().subscribe({
-      next: (data) => {
-        console.log(data)
-        this.contacts = data
-        this.searchError =""
-        this.searchForm.reset();
-      },
-      error: (err) => this.error = err.message,
-      complete: () => this.error = null
+    if (this.authService.getToken() == null) {
+      let category = new Category("Amis", 7);
+      this.contacts = [{ id: 1, firstName: "Toto", lastName: "Titi", email: "toto@yopmail.fr", phone: "0606060606", address: "25 rue de la kata", category: category },
+      { id: 1, firstName: "toto", lastName: "titi", email: "toto@yopmail.fr", phone: "0606060606", address: "25 rue de la kata", category: category },
+      { id: 1, firstName: "toto", lastName: "titi", email: "toto@yopmail.fr", phone: "0606060606", address: "25 rue de la kata", category: category },
+      { id: 1, firstName: "toto", lastName: "titi", email: "toto@yopmail.fr", phone: "0606060606", address: "25 rue de la kata", category: category },
+      { id: 1, firstName: "toto", lastName: "titi", email: "toto@yopmail.fr", phone: "0606060606", address: "25 rue de la kata", category: category },
+      { id: 1, firstName: "toto", lastName: "titi", email: "toto@yopmail.fr", phone: "0606060606", address: "25 rue de la kata", category: category },
+      { id: 1, firstName: "toto", lastName: "titi", email: "toto@yopmail.fr", phone: "0606060606", address: "25 rue de la kata", category: category },
+      { id: 1, firstName: "toto", lastName: "titi", email: "toto@yopmail.fr", phone: "0606060606", address: "25 rue de la kata", category: category },
+      ]
 
-    })
+    } else {
+      this.service.getContacts().subscribe({
+        next: (data) => {
+          console.log(data)
+          this.contacts = data
+          this.searchError = ""
+          this.searchForm.reset();
+        },
+        error: (err) => this.error = err.message,
+        complete: () => this.error = null
+
+      })
+    }
+
   }
 
   onSearch(form: FormGroup) {
@@ -74,16 +97,27 @@ export class ContactComponent implements OnInit {
             this.contacts = [];
           } else {
             this.contacts = data
-            this.searchError =""
+            this.searchError = ""
           }
         },
         error: (err) => this.error = err.message,
         complete: () => this.error = null
-
       })
     }
 
   }
+
+
+  onDelete(contact: Contact) {
+    if (confirm('êtes vous sûr de vouloir supprimer ce contact ? ')) this.service.deleteContact(contact).subscribe({
+      next: (data) => {
+        console.log(data)
+      },
+      error: (err) => this.error = err.message,
+      complete: () =>  this.getAllContacts()
+    })
+  }
+
 
 
 }
