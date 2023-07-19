@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Contact } from '../models/contact.model';
 import { environment } from 'src/environment/environment';
 import { User } from '../models/user.model';
+import { Category } from '../models/category.model';
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +42,11 @@ export class ApiService {
     formData.append("username", username);
     formData.append("password", password);
     return this.http.post("http://localhost:8080/login", formData)
+  }
+  postContact(contact : any){
+   return this.http.post<any>(environment.host+"/addContact",  contact)
+  }
+  getCategoryById(id : number){
+    return this.http.get<Category>(environment.host + "/category/" +id)
   }
 }
