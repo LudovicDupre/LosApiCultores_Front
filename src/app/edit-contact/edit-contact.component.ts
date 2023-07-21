@@ -30,7 +30,7 @@ export class EditContactComponent {
   }
 
   onEditContact(){
-    this.apiService.postContact(this.contact).subscribe({
+    this.apiService.rePostContact(this.contact).subscribe({
 
       next: () => (this.route.navigate(['/contacts'])),
       error: (err: any) =>(console.error("Erreur pendant la modification : ", err)),

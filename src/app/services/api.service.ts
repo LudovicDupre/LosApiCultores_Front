@@ -61,7 +61,7 @@ export class ApiService {
   }
 
 
-  postContact(contact: Contact) {
+  rePostContact(contact: Contact) {
    return this.http.post<Contact>(environment.host+ '/contacts', contact)
   }
 }
