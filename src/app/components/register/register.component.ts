@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 
 
@@ -24,11 +25,12 @@ export class RegisterComponent implements OnInit {
         complete: () => (this.error=null)
       })
       console.log(this.myForm.value)
+      this.router.navigateByUrl('login')
     } else {
       this.error = 'Tous les champs sont requis.'
     }
   }
-  constructor( private formBuilder: FormBuilder , private apiService: ApiService) {
+  constructor( private formBuilder: FormBuilder , private apiService: ApiService, private router : Router) {
     this.myForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
