@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Contact } from '../models/contact.model';
 import { environment } from 'src/environment/environment';
-import { Observable } from 'rxjs';
+import { Observable, connectable } from 'rxjs';
 import { User } from '../models/user.model';
 
 import { Category } from '../models/category.model';
@@ -54,7 +54,7 @@ export class ApiService {
 
   postContact(contact : Contact){
     console.log(contact)
-   return this.http.post<Contact>(environment.host+"/addContact",  contact)
+   return this.http.post<Contact>(environment.host+"/contacts/addContact",  contact, { headers: new HttpHeaders({ 'Authorization': this.authService.getToken() }) })
   }
   getCategoryById(id : number){
     return this.http.get<Category>(environment.host + "/category/" +id)

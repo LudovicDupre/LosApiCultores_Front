@@ -9,7 +9,7 @@
                 <ng-container *ngIf="categories && this.authService.getToken() != null">
 
                     <div class="col-md-10 m-3 p-2 border shadow rounded bg-dark ">
-                        <h4 class="my-4">Categories</h4>
+                        <h4 class="my-4">Catégories</h4>
                         <div class="col-md-6 ms-3 d-flex justify-content-center">
                             <button class="btn btn-info m-3 p-1 w-25" (click)="getAllContacts()">All</button>
                             <button class="btn btn-info m-3 p-1 w-25" type="button" *ngFor="let category of categories"
